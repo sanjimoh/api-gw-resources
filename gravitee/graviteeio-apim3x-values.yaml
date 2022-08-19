@@ -1,0 +1,1960 @@
+COMPUTED VALUES: null
+adminAccountEnable: true
+adminPasswordBcrypt: $2a$10$Ihk05VSds5rUSgMdsMVi9OKMIx2yUvMz7y9VP3rJmQeizZLrhLMyq
+alerts:
+  enabled: false
+  endpoints:
+    - http://localhost:8072/
+  security:
+    enabled: false
+    password: adminadmin
+    username: admin
+api:
+  autoscaling:
+    enabled: true
+    maxReplicas: 3
+    minReplicas: 1
+    targetAverageUtilization: 50
+    targetMemoryAverageUtilization: 80
+  deployment:
+    affinity: {}
+    annotations: {}
+    envFrom: []
+    hostAliases: []
+    labels: {}
+    nodeSelector: {}
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+    strategy:
+      rollingUpdate:
+        maxUnavailable: 1
+      type: RollingUpdate
+    tolerations: []
+    topologySpreadConstraints: []
+  enabled: true
+  env: []
+  http:
+    api:
+      entrypoint: /
+    client:
+      timeout: 10000
+    services:
+      core:
+        http:
+          authentication:
+            password: adminadmin
+          enabled: true
+          host: localhost
+          port: 18083
+        ingress:
+          enabled: false
+          ingressClassName: ""
+        service:
+          enabled: false
+  image:
+    pullPolicy: Always
+    repository: graviteeio/apim-management-api
+  ingress:
+    management:
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/configuration-snippet: |
+          etag on;
+          proxy_pass_header ETag;
+          proxy_pass_header if-match;
+      enabled: true
+      hosts:
+        - localhost
+      ingressClassName: ""
+      path: /management
+#      tls:
+#        - hosts:
+#            - apim.example.com
+#          secretName: api-custom-cert
+    portal:
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/configuration-snippet: |
+          etag on;
+          proxy_pass_header ETag;
+          proxy_set_header if-match "";
+      enabled: true
+      hosts:
+        - localhost
+      ingressClassName: ""
+      path: /portal
+#      tls:
+#        - hosts:
+#            - apim.example.com
+#          secretName: api-custom-cert
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 30
+    periodSeconds: 30
+    tcpSocket:
+      port: http
+  logging:
+    debug: false
+    file:
+      enabled: true
+      encoderPattern: '%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n%n'
+      rollingPolicy: |
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${gravitee.management.log.dir}/gravitee_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    graviteeLevel: DEBUG
+    jettyLevel: INFO
+    stdout:
+      encoderPattern: '%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n'
+  name: api
+  newsletterEnabled: true
+  pdb:
+    enabled: false
+    maxUnavailable: 50%
+    minAvailable: ""
+  podAnnotations: {}
+  priorityClassName: ""
+  ratingEnabled: true
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 30
+    periodSeconds: 30
+    tcpSocket:
+      port: http
+  reloadOnConfigChange: true
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  restartPolicy: OnFailure
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+  service:
+    externalPort: 83
+    internalPort: 8083
+    internalPortName: http
+    type: ClusterIP
+  services:
+    bridge:
+      enabled: false
+      ssl:
+        enabled: false
+    metrics:
+      enabled: false
+      prometheus:
+        enabled: true
+    subscription:
+      enabled: false
+  ssl:
+    enabled: false
+  supportEnabled: true
+  terminationGracePeriod: 30
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  user:
+    anynomizeOnDelete: false
+    login:
+      defaultApplication: true
+apim:
+  clusterRoleRules:
+    - apiGroups:
+        - ""
+      resources:
+        - configmaps
+        - secrets
+      verbs:
+        - get
+        - list
+        - watch
+  managedServiceAccount: true
+  name: apim
+  serviceAccount: ""
+chaos:
+  enabled: false
+cockpit:
+  controller: https://cockpit-controller.gravitee.io
+  enabled: false
+  keystore:
+    value: base64 encoded value of the keystore provided by Cockpit (required)
+  ssl:
+    verifyHostname: true
+  url: https://cockpit.gravitee.io
+elasticsearch:
+  clusterDomain: cluster.local
+  common:
+    exampleValue: common-chart
+    global:
+      coordinating:
+        name: coordinating-only
+      imagePullSecrets: []
+      imageRegistry: ""
+      kibanaEnabled: false
+      storageClass: ""
+  config: {}
+  coordinating:
+    affinity: {}
+    autoscaling:
+      enabled: false
+      maxReplicas: 11
+      minReplicas: 2
+      targetCPU: ""
+      targetMemory: ""
+    containerSecurityContext:
+      enabled: false
+      runAsUser: 1001
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    fullnameOverride: ""
+    heapSize: 128m
+    hostAliases: []
+    initContainers: []
+    livenessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
+    podAffinityPreset: ""
+    podAnnotations: {}
+    podAntiAffinityPreset: ""
+    podLabels: {}
+    podSecurityContext:
+      enabled: false
+      fsGroup: 1001
+    priorityClassName: ""
+    readinessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    replicas: 1
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1024Mi
+      requests:
+        cpu: 25m
+        memory: 256Mi
+    schedulerName: ""
+    securityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
+    service:
+      annotations: {}
+      externalTrafficPolicy: Cluster
+      loadBalancerIP: ""
+      nodePort: ""
+      port: 9200
+      type: ClusterIP
+    serviceAccount:
+      create: false
+      name: ""
+    sidecars: []
+    startupProbe:
+      enabled: false
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    tolerations: []
+    topologySpreadConstraints: []
+    updateStrategy:
+      type: RollingUpdate
+  curator:
+    affinity: {}
+    command:
+      - curator
+    configMaps:
+      action_file_yml: |-
+        ---
+        actions:
+          1:
+            action: delete_indices
+            description: "Clean up ES by deleting old indices"
+            options:
+              timeout_override:
+              continue_if_exception: False
+              disable_action: False
+              ignore_empty_list: True
+            filters:
+            - filtertype: age
+              source: name
+              direction: older
+              timestring: '%Y.%m.%d'
+              unit: days
+              unit_count: 90
+              field:
+              stats_result:
+              epoch:
+              exclude: False
+      config_yml: |-
+        ---
+        client:
+          hosts:
+            - {{ template "elasticsearch.coordinating.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
+          port: {{ .Values.coordinating.service.port }}
+          # url_prefix:
+          # use_ssl: True
+          # certificate:
+          # client_cert:
+          # client_key:
+          # ssl_no_validate: True
+          # http_auth:
+          # timeout: 30
+          # master_only: False
+        # logging:
+        #   loglevel: INFO
+        #   logfile:
+        #   logformat: default
+        #   blacklist: ['elasticsearch', 'urllib3']
+    cronjob:
+      annotations: {}
+      concurrencyPolicy: ""
+      failedJobsHistoryLimit: ""
+      jobRestartPolicy: Never
+      schedule: 0 1 * * *
+      successfulJobsHistoryLimit: ""
+    dryrun: false
+    enabled: true
+    env: {}
+    extraInitContainers: []
+    extraVolumeMounts: []
+    extraVolumes: []
+    hooks:
+      install: false
+      upgrade: false
+    image:
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
+      repository: bitnami/elasticsearch-curator
+      tag: 5.8.4-debian-10-r321
+    initContainers: []
+    name: curator
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
+    podAffinityPreset: ""
+    podAnnotations: {}
+    podAntiAffinityPreset: ""
+    podLabels: {}
+    priorityClassName: ""
+    psp:
+      create: false
+    rbac:
+      enabled: false
+    resources:
+      limits: {}
+      requests: {}
+    schedulerName: ""
+    serviceAccount:
+      create: true
+      name: ""
+    sidecars: []
+    tolerations: []
+    topologySpreadConstraints: []
+  data:
+    affinity: {}
+    autoscaling:
+      enabled: false
+      maxReplicas: 11
+      minReplicas: 2
+      targetCPU: ""
+      targetMemory: ""
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 1001
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    fullnameOverride: ""
+    heapSize: 512m
+    hostAliases: []
+    initContainers: []
+    livenessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    name: data
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      annotations: {}
+      enabled: true
+      existingClaim: ""
+      existingVolume: ""
+      selector: {}
+      size: 20Gi
+      storageClass: ""
+    podAffinityPreset: ""
+    podAnnotations: {}
+    podAntiAffinityPreset: ""
+    podLabels: {}
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+    priorityClassName: ""
+    readinessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    replicas: 1
+    resources:
+      limits:
+        cpu: 1
+        memory: 2048Mi
+      requests:
+        cpu: 50m
+        memory: 1024Mi
+    schedulerName: ""
+    securityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
+    service:
+      annotations: {}
+    serviceAccount:
+      create: false
+      name: ""
+    sidecars: []
+    startupProbe:
+      enabled: false
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    tolerations: []
+    topologySpreadConstraints: []
+    updateStrategy:
+      rollingUpdatePartition: ""
+      type: RollingUpdate
+  diagnosticMode:
+    args:
+      - infinity
+    command:
+      - sleep
+    enabled: false
+  enabled: true
+  extraConfig: {}
+  extraDeploy: []
+  extraEnvVars: []
+  extraEnvVarsConfigMap: ""
+  extraEnvVarsSecret: ""
+  extraVolumeMounts: []
+  extraVolumes: []
+  fullnameOverride: graviteeio-apim-elasticsearch
+  global:
+    coordinating:
+      name: coordinating-only
+    imagePullSecrets: []
+    imageRegistry: ""
+    kibanaEnabled: false
+    storageClass: ""
+  image:
+    debug: false
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+    registry: docker.io
+    repository: bitnami/elasticsearch
+    tag: 7.17.3
+  ingest:
+    affinity: {}
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 1001
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    enabled: false
+    fullnameOverride: ""
+    heapSize: 128m
+    hostAliases: []
+    initContainers: []
+    livenessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    name: ingest
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
+    podAffinityPreset: ""
+    podAnnotations: {}
+    podAntiAffinityPreset: ""
+    podLabels: {}
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+    priorityClassName: ""
+    readinessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    replicas: 1
+    resources:
+      limits: {}
+      requests:
+        cpu: 25m
+        memory: 256Mi
+    schedulerName: ""
+    securityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
+    service:
+      annotations: {}
+      loadBalancerIP: ""
+      nodePort: ""
+      port: 9300
+      type: ClusterIP
+    serviceAccount:
+      create: false
+      name: ""
+    sidecars: []
+    startupProbe:
+      enabled: false
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    tolerations: []
+    topologySpreadConstraints: []
+    updateStrategy:
+      type: RollingUpdate
+  initScripts: {}
+  initScriptsCM: ""
+  initScriptsSecret: ""
+  kibana:
+    affinity: {}
+    common:
+      exampleValue: common-chart
+      global:
+        coordinating:
+          name: coordinating-only
+        imagePullSecrets: []
+        imageRegistry: ""
+        kibanaEnabled: false
+        storageClass: ""
+    configuration:
+      server:
+        basePath: ""
+        rewriteBasePath: false
+    configurationCM: ""
+    containerPort: 5601
+    elasticsearch:
+      hosts:
+        - '{{ include "elasticsearch.coordinating.fullname" . }}'
+      port: 9200
+      security:
+        auth:
+          enabled: false
+          existingSecret: ""
+          kibanaPassword: ""
+          kibanaUsername: elastic
+        tls:
+          enabled: false
+          existingSecret: ""
+          passwordsSecret: ""
+          truststorePassword: ""
+          usePemCerts: false
+          verificationMode: full
+    extraConfiguration: {}
+    extraDeploy: []
+    extraEnvVars: []
+    extraEnvVarsCM: ""
+    extraEnvVarsSecret: ""
+    extraVolumeMounts: []
+    extraVolumes: []
+    forceInitScripts: false
+    fullnameOverride: ""
+    global:
+      coordinating:
+        name: coordinating-only
+      imagePullSecrets: []
+      imageRegistry: ""
+      kibanaEnabled: false
+      storageClass: ""
+    hostAliases: []
+    image:
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
+      repository: bitnami/kibana
+      tag: 7.17.2-debian-10-r3
+    ingress:
+      annotations: {}
+      apiVersion: ""
+      enabled: false
+      extraHosts: []
+      extraPaths: []
+      extraTls: []
+      hostname: kibana.local
+      ingressClassName: ""
+      path: /
+      pathType: ImplementationSpecific
+      secrets: []
+      selfSigned: false
+      tls: false
+    initContainers: []
+    initScriptsCM: ""
+    initScriptsSecret: ""
+    kubeVersion: ""
+    livenessProbe:
+      enabled: true
+      failureThreshold: 6
+      initialDelaySeconds: 120
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    metrics:
+      enabled: false
+      service:
+        annotations:
+          prometheus.io/path: _prometheus/metrics
+          prometheus.io/port: "80"
+          prometheus.io/scrape: "true"
+      serviceMonitor:
+        enabled: false
+        interval: ""
+        namespace: ""
+        scrapeTimeout: ""
+        selector: {}
+    nameOverride: ""
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
+    persistence:
+      accessMode: ReadWriteOnce
+      enabled: true
+      existingClaim: ""
+      size: 10Gi
+      storageClass: ""
+    plugins: []
+    podAffinityPreset: ""
+    podAnnotations: {}
+    podAntiAffinityPreset: soft
+    podLabels: {}
+    readinessProbe:
+      enabled: true
+      failureThreshold: 6
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    replicaCount: 1
+    resources:
+      limits: {}
+      requests: {}
+    savedObjects:
+      configmap: ""
+      urls: []
+    schedulerName: ""
+    securityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsNonRoot: true
+      runAsUser: 1001
+    service:
+      annotations: {}
+      externalTrafficPolicy: Cluster
+      extraPorts: []
+      labels: {}
+      loadBalancerIP: ""
+      nodePort: ""
+      port: 5601
+      type: ClusterIP
+    serviceAccount:
+      annotations: {}
+      create: true
+      name: ""
+    sidecars: []
+    tls:
+      autoGenerated: false
+      enabled: false
+      existingSecret: ""
+      keyPassword: ""
+      keystorePassword: ""
+      passwordsSecret: ""
+      usePemCerts: false
+    tolerations: []
+    updateStrategy:
+      type: RollingUpdate
+    volumePermissions:
+      enabled: false
+      image:
+        pullPolicy: IfNotPresent
+        pullSecrets: []
+        registry: docker.io
+        repository: bitnami/bitnami-shell
+        tag: 10-debian-10-r394
+      resources: {}
+  master:
+    affinity: {}
+    autoscaling:
+      enabled: false
+      maxReplicas: 11
+      minReplicas: 2
+      targetCPU: ""
+      targetMemory: ""
+    containerSecurityContext:
+      enabled: false
+      runAsUser: 1001
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    fullnameOverride: ""
+    heapSize: 128m
+    hostAliases: []
+    ingress:
+      annotations: {}
+      apiVersion: ""
+      enabled: false
+      extraHosts: []
+      extraPaths: []
+      extraTls: []
+      hostname: master.local
+      path: /
+      pathType: ImplementationSpecific
+      secrets: []
+      tls: false
+    initContainers: []
+    livenessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    name: master
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      annotations: {}
+      enabled: true
+      existingClaim: ""
+      existingVolume: ""
+      selector: {}
+      size: 4Gi
+      storageClass: ""
+    podAffinityPreset: ""
+    podAnnotations: {}
+    podAntiAffinityPreset: ""
+    podLabels: {}
+    podSecurityContext:
+      enabled: false
+      fsGroup: 1001
+    priorityClassName: ""
+    readinessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    replicas: 1
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1024Mi
+      requests:
+        cpu: 25m
+        memory: 256Mi
+    schedulerName: ""
+    securityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
+    service:
+      annotations: {}
+      loadBalancerIP: ""
+      nodePort: ""
+      port: 9300
+      type: ClusterIP
+    serviceAccount:
+      create: false
+      name: ""
+    sidecars: []
+    startupProbe:
+      enabled: false
+      failureThreshold: 5
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    tolerations: []
+    topologySpreadConstraints: []
+    updateStrategy:
+      type: RollingUpdate
+  metrics:
+    affinity: {}
+    enabled: false
+    extraArgs: []
+    hostAliases: []
+    image:
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
+      repository: bitnami/elasticsearch-exporter
+      tag: 1.3.0-debian-10-r176
+    livenessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    name: metrics
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
+    podAffinityPreset: ""
+    podAnnotations:
+      prometheus.io/port: "9114"
+      prometheus.io/scrape: "true"
+    podAntiAffinityPreset: ""
+    podLabels: {}
+    readinessProbe:
+      enabled: true
+      failureThreshold: 5
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources:
+      limits: {}
+      requests: {}
+    schedulerName: ""
+    service:
+      annotations:
+        prometheus.io/port: "9114"
+        prometheus.io/scrape: "true"
+      type: ClusterIP
+    serviceMonitor:
+      enabled: false
+      interval: ""
+      labels: {}
+      namespace: ""
+      scrapeTimeout: ""
+      selector: {}
+    tolerations: []
+    topologySpreadConstraints: []
+  name: elasticsearch
+  nameOverride: ""
+  plugins: ""
+  security:
+    elasticPassword: ""
+    enabled: false
+    existingSecret: ""
+    fipsMode: false
+    tls:
+      autoGenerated: false
+      coordinating:
+        existingSecret: ""
+      data:
+        existingSecret: ""
+      ingest:
+        existingSecret: ""
+      keyPassword: ""
+      keystoreFilename: elasticsearch.keystore.jks
+      keystorePassword: ""
+      master:
+        existingSecret: ""
+      restEncryption: true
+      truststoreFilename: elasticsearch.truststore.jks
+      truststorePassword: ""
+      usePemCerts: false
+      verificationMode: full
+  snapshotRepoPath: ""
+  sysctlImage:
+    enabled: true
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+    registry: docker.io
+    repository: bitnami/bitnami-shell
+    resources:
+      limits: {}
+      requests: {}
+    tag: 10-debian-10-r403
+  volumePermissions:
+    enabled: false
+    image:
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
+      repository: bitnami/bitnami-shell
+      tag: 10-debian-10-r403
+    resources:
+      limits: {}
+      requests: {}
+es:
+  cluster: elasticsearch
+  enabled: true
+  endpoints:
+    - http://graviteeio-apim-elasticsearch-data.gravitee-apim.svc.cluster.local:9200
+  index: gravitee
+  index_mode: daily
+  lifecycle:
+    enabled: false
+    policies:
+      health: my_policy
+      log: my_policy
+      monitor: my_policy
+      request: my_policy
+    policyPropertyName: index.lifecycle.name
+  pipeline:
+    plugins:
+      ingest: geoip, user_agent
+  security:
+    enabled: false
+    password: example
+    username: example
+  ssl:
+    enabled: false
+extraInMemoryUsers: |
+  - user:
+    username: user
+    # Password value: password
+    password: $2a$10$9kjw/SH9gucCId3Lnt6EmuFreUAcXSZgpvAYuW2ISv7hSOhHRH1AO
+    roles: ORGANIZATION:USER, ENVIRONMENT:USER
+    # Useful to receive notifications
+    #email:
+    #firstName:
+    #lastName:
+  - user:
+    username: api1
+    # Password value: api1
+    password: $2a$10$iXdXO4wAYdhx2LOwijsp7.PsoAZQ05zEdHxbriIYCbtyo.y32LTji
+    # You can declare multiple roles using comma separator
+    roles: ORGANIZATION:USER, ENVIRONMENT:API_PlocalUBLISHER
+    #email:
+    #firstName:
+    #lastName:
+  - user:
+    username: application1
+    # Password value: application1
+    password: $2a$10$2gtKPYRB9zaVaPcn5RBx/.3T.7SeZoDGs9GKqbo9G64fKyXFR1He.
+    roles: ORGANIZATION:USER, ENVIRONMENT:USER
+    #email:
+    #firstName:
+    #lastName:
+gateway:
+  apiKey:
+    header: X-Gravitee-Api-Key
+    param: api-key
+  autoscaling:
+    enabled: true
+    maxReplicas: 3
+    minReplicas: 1
+    targetAverageUtilization: 50
+    targetMemoryAverageUtilization: 80
+  classloader:
+    legacy:
+      enabled: false
+  deployment:
+    affinity: {}
+    annotations: {}
+    envFrom: []
+    hostAliases: []
+    labels: {}
+    nodeSelector: {}
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+    strategy:
+      rollingUpdate:
+        maxUnavailable: 1
+      type: RollingUpdate
+    tolerations: []
+    topologySpreadConstraints: []
+  enabled: true
+  env: []
+  image:
+    pullPolicy: Always
+    repository: graviteeio/apim-gateway
+  ingress:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    enabled: true
+    hosts:
+      - localhost
+    ingressClassName: ""
+    path: /gateway
+#    tls:
+#      - hosts:
+#          - apim.example.com
+#        secretName: api-custom-cert
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 30
+    periodSeconds: 30
+    tcpSocket:
+      port: http
+  logging:
+    debug: false
+    file:
+      enabled: true
+      encoderPattern: '%d{HH:mm:ss.SSS} [%thread] [%X{api}] %-5level %logger{36} -
+        %msg%n'
+      rollingPolicy: |
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${gravitee.home}/logs/gravitee_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    graviteeLevel: DEBUG
+    jettyLevel: WARN
+    stdout:
+      encoderPattern: '%d{HH:mm:ss.SSS} [%thread] [%X{api}] %-5level %logger{36} -
+        %msg%n'
+  management: {}
+  name: gateway
+  pdb:
+    enabled: false
+    maxUnavailable: 50%
+    minAvailable: ""
+  podAnnotations: {}
+  priorityClassName: ""
+  ratelimit: {}
+  readinessProbe:
+    apiSync: false
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 30
+    tcpSocket:
+      port: http
+  reloadOnConfigChange: true
+  replicaCount: 1
+  reporters:
+    elasticsearch:
+      enabled: true
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+  service:
+    externalPort: 82
+    internalPort: 8082
+    internalPortName: http
+    type: ClusterIP
+  services:
+    bridge:
+      enabled: false
+      ssl:
+        enabled: false
+    core:
+      http:
+        authentication:
+          password: adminadmin
+          type: basic
+        enabled: true
+        host: localhost
+        port: 18082
+        secured: false
+        ssl:
+          keystore:
+            path: /p12/keystore
+            type: PKCS12
+      ingress:
+        enabled: false
+        ingressClassName: ""
+      service:
+        enabled: false
+    kubeController:
+      enabled: false
+    metrics:
+      enabled: false
+      prometheus:
+        enabled: true
+    sync:
+      cron: '*/5 * * * * *'
+  ssl:
+    clientAuth: false
+    enabled: false
+  terminationGracePeriod: 30
+  type: Deployment
+  websocket: false
+graviteeRepoAuth:
+  enabled: true
+inMemoryAuth:
+  allowEmailInSearchResults: false
+  enabled: true
+  passwordEncodingAlgo: bcrypt
+initContainers:
+  env: []
+  image: alpine:latest
+  imagePullPolicy: Always
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+jdbc:
+  driver: https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.22/mysql-connector-java-8.0.22.jar
+  liquibase: true
+  pool:
+    autoCommit: true
+    connectionTimeout: 10000
+    idleTimeout: 600000
+    maxLifetime: 1800000
+    maxPoolSize: 10
+    minIdle: 10
+    registerMbeans: true
+  schema: public
+  url: jdbc:mysql://localhost:3306/gravitee
+jwtSecret: myJWT4Gr4v1t33_S3cr3t
+ldap:
+  authentication:
+    group:
+      base: ou=gravitee,ou=groups
+      filter: member={0}
+      role:
+        admin: LDAP_GROUP_ADMIN
+        attribute: sAMAccountName
+        consumer: LDAP_GROUP_CONSUMER
+        publisher: LDAP_GROUP_PUBLISHER
+        user: LDAP_GROUP_USER
+    user:
+      base: ou=users
+      filter: sAMAccountName={0}
+      photo: thumbnailPhoto
+  context:
+    base: dc=example,dc=com
+    password: pass@12345
+    url: ldap://ldap.example.com
+    user: user@example.com
+  enabled: false
+  lookup:
+    allowEmailInSearchResults: false
+    user:
+      base: ou=users
+      filter: (&(objectClass=person)(|(cn=*{0}*)(sAMAccountName={0})))
+management:
+  type: mongodb
+  cors:
+    allow-origin: '*'
+    max-age: 1728000
+    allow-methods: 'OPTIONS, GET, POST, PUT, DELETE'
+    allow-headers: 'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, If-Match, X-Xsrf-Token'
+    exposed-headers: 'ETag;X-Xsrf-Token'
+mongo:
+  auth:
+    enabled: false
+    source: admin
+  connectTimeoutMS: 30000
+  dbhost: graviteeio-apim-mongodb-replicaset-headless
+  dbname: gravitee
+  dbport: 27017
+  rs: rs0
+  rsEnabled: true
+  socketKeepAlive: false
+  sslEnabled: false
+mongodb-replicaset:
+  affinity: {}
+  annotations: {}
+  arbiter:
+    affinity: {}
+    annotations: {}
+    args: []
+    command: []
+    configuration: ""
+    containerPorts:
+      mongodb: 27017
+    containerSecurityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1001
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    enabled: true
+    existingConfigmap: ""
+    extraEnvVars: []
+    extraEnvVarsCM: ""
+    extraEnvVarsSecret: ""
+    extraFlags: []
+    extraVolumeMounts: []
+    extraVolumes: []
+    hostAliases: []
+    initContainers: []
+    labels: {}
+    lifecycleHooks: {}
+    livenessProbe:
+      enabled: true
+      failureThreshold: 6
+      initialDelaySeconds: 30
+      periodSeconds: 20
+      successThreshold: 1
+      timeoutSeconds: 10
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
+    pdb:
+      create: false
+      maxUnavailable: ""
+      minAvailable: 1
+    podAffinityPreset: ""
+    podAnnotations: {}
+    podAntiAffinityPreset: soft
+    podLabels: {}
+    podManagementPolicy: OrderedReady
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+      sysctls: []
+    priorityClassName: ""
+    readinessProbe:
+      enabled: true
+      failureThreshold: 6
+      initialDelaySeconds: 5
+      periodSeconds: 20
+      successThreshold: 1
+      timeoutSeconds: 10
+    resources:
+      limits: {}
+      requests: {}
+    runtimeClassName: ""
+    schedulerName: ""
+    service:
+      annotations: {}
+      extraPorts: []
+      nameOverride: ""
+      ports:
+        mongodb: 27017
+    sidecars: []
+    startupProbe:
+      enabled: false
+      failureThreshold: 30
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    terminationGracePeriodSeconds: ""
+    tolerations: []
+    topologySpreadConstraints: []
+    updateStrategy:
+      type: RollingUpdate
+  architecture: replicaset
+  args: []
+  auth:
+    database: ""
+    databases: []
+    enabled: false
+    existingSecret: ""
+    password: ""
+    passwords: []
+    replicaSetKey: ""
+    rootPassword: ""
+    rootUser: root
+    username: ""
+    usernames: []
+  clusterDomain: cluster.local
+  command: []
+  common:
+    exampleValue: common-chart
+    global:
+      imagePullSecrets: []
+      imageRegistry: ""
+      namespaceOverride: ""
+      storageClass: ""
+  commonAnnotations: {}
+  commonLabels: {}
+  configuration: ""
+  containerPorts:
+    mongodb: 27017
+  containerSecurityContext:
+    enabled: true
+    runAsNonRoot: true
+    runAsUser: 1001
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
+  diagnosticMode:
+    args:
+      - infinity
+    command:
+      - sleep
+    enabled: false
+  directoryPerDB: false
+  disableJavascript: false
+  disableSystemLog: false
+  enableIPv6: false
+  enableJournal: true
+  enabled: true
+  existingConfigmap: ""
+  externalAccess:
+    autoDiscovery:
+      enabled: false
+      image:
+        pullPolicy: IfNotPresent
+        pullSecrets: []
+        registry: docker.io
+        repository: bitnami/kubectl
+        tag: 1.24.3-debian-11-r5
+      resources:
+        limits: {}
+        requests: {}
+    enabled: false
+    hidden:
+      enabled: false
+      service:
+        annotations: {}
+        domain: ""
+        externalTrafficPolicy: Local
+        extraPorts: []
+        loadBalancerIPs: []
+        loadBalancerSourceRanges: []
+        nodePorts: []
+        portName: mongodb
+        ports:
+          mongodb: 27017
+        sessionAffinity: None
+        sessionAffinityConfig: {}
+        type: LoadBalancer
+    service:
+      annotations: {}
+      domain: ""
+      externalTrafficPolicy: Local
+      extraPorts: []
+      loadBalancerIPs: []
+      loadBalancerSourceRanges: []
+      nodePorts: []
+      portName: mongodb
+      ports:
+        mongodb: 27017
+      sessionAffinity: None
+      sessionAffinityConfig: {}
+      type: LoadBalancer
+  extraDeploy: []
+  extraEnvVars: []
+  extraEnvVarsCM: ""
+  extraEnvVarsSecret: ""
+  extraFlags: []
+  extraVolumeMounts: []
+  extraVolumes: []
+  fullnameOverride: graviteeio-apim-mongodb-replicaset
+  global:
+    imagePullSecrets: []
+    imageRegistry: ""
+    namespaceOverride: ""
+    storageClass: ""
+  hidden:
+    affinity: {}
+    annotations: {}
+    args: []
+    command: []
+    configuration: ""
+    containerPorts:
+      mongodb: 27017
+    containerSecurityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1001
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    enabled: false
+    existingConfigmap: ""
+    extraEnvVars: []
+    extraEnvVarsCM: ""
+    extraEnvVarsSecret: ""
+    extraFlags: []
+    extraVolumeMounts: []
+    extraVolumes: []
+    hostAliases: []
+    initContainers: []
+    labels: {}
+    lifecycleHooks: {}
+    livenessProbe:
+      enabled: true
+      failureThreshold: 6
+      initialDelaySeconds: 30
+      periodSeconds: 20
+      successThreshold: 1
+      timeoutSeconds: 10
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
+    pdb:
+      create: false
+      maxUnavailable: ""
+      minAvailable: 1
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      annotations: {}
+      enabled: true
+      medium: ""
+      mountPath: /bitnami/mongodb
+      size: 8Gi
+      storageClass: ""
+      subPath: ""
+      volumeClaimTemplates:
+        dataSource: {}
+        requests: {}
+        selector: {}
+    podAffinityPreset: ""
+    podAnnotations: {}
+    podAntiAffinityPreset: soft
+    podLabels: {}
+    podManagementPolicy: OrderedReady
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+      sysctls: []
+    priorityClassName: ""
+    readinessProbe:
+      enabled: true
+      failureThreshold: 6
+      initialDelaySeconds: 5
+      periodSeconds: 20
+      successThreshold: 1
+      timeoutSeconds: 10
+    replicaCount: 1
+    resources:
+      limits: {}
+      requests: {}
+    runtimeClassName: ""
+    schedulerName: ""
+    service:
+      annotations: {}
+      extraPorts: []
+      portName: mongodb
+      ports:
+        mongodb: 27017
+    sidecars: []
+    startupProbe:
+      enabled: false
+      failureThreshold: 30
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    terminationGracePeriodSeconds: ""
+    tolerations: []
+    topologySpreadConstraints: []
+    updateStrategy:
+      type: RollingUpdate
+  hostAliases: []
+  image:
+    debug: false
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+    registry: docker.io
+    repository: bitnami/mongodb
+    tag: 5.0.8-debian-10-r20
+  initContainers: []
+  initdbScripts: {}
+  initdbScriptsConfigMap: ""
+  kubeVersion: ""
+  labels: {}
+  lifecycleHooks: {}
+  livenessProbe:
+    enabled: true
+    failureThreshold: 6
+    initialDelaySeconds: 30
+    periodSeconds: 20
+    successThreshold: 1
+    timeoutSeconds: 10
+  metrics:
+    args: []
+    command: []
+    containerPort: 9216
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    enabled: false
+    extraFlags: ""
+    image:
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
+      repository: bitnami/mongodb-exporter
+      tag: 0.33.0-debian-11-r7
+    livenessProbe:
+      enabled: true
+      failureThreshold: 3
+      initialDelaySeconds: 15
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 5
+    password: ""
+    prometheusRule:
+      additionalLabels: {}
+      enabled: false
+      namespace: ""
+      rules: []
+    readinessProbe:
+      enabled: true
+      failureThreshold: 3
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources:
+      limits: {}
+      requests: {}
+    service:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: '{{ .Values.metrics.service.ports.metrics }}'
+        prometheus.io/scrape: "true"
+      extraPorts: []
+      ports:
+        metrics: 9216
+      type: ClusterIP
+    serviceMonitor:
+      enabled: false
+      honorLabels: false
+      interval: 30s
+      jobLabel: ""
+      labels: {}
+      metricRelabelings: []
+      namespace: ""
+      relabelings: []
+      scrapeTimeout: ""
+      selector: {}
+    startupProbe:
+      enabled: false
+      failureThreshold: 30
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    username: ""
+  nameOverride: ""
+  namespaceOverride: ""
+  nodeAffinityPreset:
+    key: ""
+    type: ""
+    values: []
+  nodeSelector: {}
+  pdb:
+    create: false
+    maxUnavailable: ""
+    minAvailable: 1
+  persistence:
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    enabled: true
+    existingClaim: ""
+    medium: ""
+    mountPath: /bitnami/mongodb
+    resourcePolicy: ""
+    size: 1Gi
+    storageClass: ""
+    subPath: ""
+    volumeClaimTemplates:
+      dataSource: {}
+      requests: {}
+      selector: {}
+  podAffinityPreset: soft
+  podAnnotations: {}
+  podAntiAffinityPreset: soft
+  podLabels: {}
+  podManagementPolicy: OrderedReady
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+    sysctls: []
+  podSecurityPolicy:
+    allowPrivilegeEscalation: false
+    create: false
+    privileged: false
+    spec: {}
+  priorityClassName: ""
+  rbac:
+    create: false
+    rules: []
+  readinessProbe:
+    enabled: true
+    failureThreshold: 6
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 5
+  replicaCount: 2
+  replicaSetConfigurationSettings:
+    configuration: {}
+    enabled: false
+  replicaSetHostnames: true
+  replicaSetName: rs0
+  resources:
+    limits:
+      cpu: 1
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  runtimeClassName: ""
+  schedulerName: ""
+  service:
+    annotations: {}
+    clusterIP: ""
+    externalIPs: []
+    externalTrafficPolicy: Local
+    extraPorts: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    nameOverride: ""
+    nodePorts:
+      mongodb: ""
+    portName: mongodb
+    ports:
+      mongodb: 27017
+    sessionAffinity: None
+    sessionAffinityConfig: {}
+    type: ClusterIP
+  serviceAccount:
+    annotations: {}
+    automountServiceAccountToken: true
+    create: true
+    name: ""
+  sidecars: []
+  startupProbe:
+    enabled: false
+    failureThreshold: 30
+    initialDelaySeconds: 5
+    periodSeconds: 20
+    successThreshold: 1
+    timeoutSeconds: 10
+  systemLogVerbosity: 0
+  terminationGracePeriodSeconds: ""
+  tls:
+    autoGenerated: true
+    caCert: ""
+    caKey: ""
+    enabled: false
+    existingSecret: ""
+    extraDnsNames: []
+    image:
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
+      repository: bitnami/nginx
+      tag: 1.23.1-debian-11-r2
+    mode: requireTLS
+    resources:
+      limits: {}
+      requests: {}
+  tolerations: []
+  topologySpreadConstraints: []
+  updateStrategy:
+    type: RollingUpdate
+  useStatefulSet: false
+  volumePermissions:
+    enabled: false
+    image:
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
+      repository: bitnami/bitnami-shell
+      tag: 11-debian-11-r19
+    resources:
+      limits: {}
+      requests: {}
+    securityContext:
+      runAsUser: 0
+notifiers:
+  smtp:
+    enabled: true
+    from: ${email.from}
+    host: ${email.host}
+    password: ${email.password}
+    port: ${email.port}
+    subject: ${email.subject}
+    username: ${email.username}
+oidcAuth:
+  enabled: false
+portal:
+  autoscaling:
+    enabled: true
+    maxReplicas: 3
+    minReplicas: 1
+    targetAverageUtilization: 50
+    targetMemoryAverageUtilization: 80
+  deployment:
+    affinity: {}
+    annotations: {}
+    envFrom: []
+    hostAliases: []
+    labels: {}
+    nodeSelector: {}
+    securityContext:
+      runAsGroup: 101
+      runAsNonRoot: true
+      runAsUser: 101
+    strategy:
+      rollingUpdate:
+        maxUnavailable: 1
+      type: RollingUpdate
+    tolerations: []
+    topologySpreadConstraints: []
+  enabled: true
+  cors:
+    allow-origin: '*'
+    max-age: 1728000
+    allow-methods: 'OPTIONS, GET, POST, PUT, DELETE'
+    allow-headers: 'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, If-Match, X-Xsrf-Token'
+    exposed-headers: 'ETag;X-Xsrf-Token'
+  env: []
+  image:
+    pullPolicy: Always
+    repository: graviteeio/apim-portal-ui
+  ingress:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        etag on;
+        proxy_pass_header ETag;
+    enabled: true
+    hosts:
+      - localhost
+    ingressClassName: ""
+    path: /
+#    tls:
+#      - hosts:
+#          - apim.example.com
+#        secretName: api-custom-cert
+  livenessProbe:
+    failureThreshold: 3
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 30
+  name: portal
+  pdb:
+    enabled: false
+    maxUnavailable: 50%
+    minAvailable: ""
+  podAnnotations: {}
+  priorityClassName: ""
+  readinessProbe:
+    failureThreshold: 3
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 30
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  securityContext:
+    runAsGroup: 101
+    runAsNonRoot: true
+    runAsUser: 101
+  service:
+    externalPort: 8003
+    internalPort: 8080
+    internalPortName: http
+    name: nginx
+    type: ClusterIP
+  terminationGracePeriod: 30
+ratelimit:
+  type: mongodb
+redis:
+  download: true
+  host: redis.mycompany
+  port: 6379
+security:
+  providers: []
+  trustAll: false
+smtp:
+  enabled: true
+  from: info@example.com
+  host: smtp.example.com
+  password: example.com
+  port: 25
+  properties:
+    auth: true
+    starttlsEnable: false
+  subject: '[gravitee] %s'
+  username: info@example.com
+ui:
+  autoscaling:
+    enabled: true
+    maxReplicas: 3
+    minReplicas: 1
+    targetAverageUtilization: 50
+    targetMemoryAverageUtilization: 80
+  companyName: Gravitee.io
+  deployment:
+    affinity: {}
+    annotations: {}
+    envFrom: []
+    hostAliases: []
+    labels: {}
+    nodeSelector: {}
+    securityContext:
+      runAsGroup: 101
+      runAsNonRoot: true
+      runAsUser: 101
+    strategy:
+      rollingUpdate:
+        maxUnavailable: 1
+      type: RollingUpdate
+    tolerations: []
+    topologySpreadConstraints: []
+  documentationLink: http://docs.gravitee.io/
+  enabled: true
+  env: []
+  image:
+    pullPolicy: Always
+    repository: graviteeio/apim-management-ui
+  ingress:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        etag on;
+        proxy_pass_header ETag;
+      nginx.ingress.kubernetes.io/rewrite-target: /$1$2
+    enabled: true
+    hosts:
+      - localhost
+    ingressClassName: ""
+    path: /console(/|$)(.*)
+#    tls:
+#      - hosts:
+#          - apim.example.com
+#        secretName: api-custom-cert
+  livenessProbe:
+    failureThreshold: 3
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 30
+  managementTitle: API Management
+  name: ui
+  pdb:
+    enabled: false
+    maxUnavailable: 50%
+    minAvailable: ""
+  podAnnotations: {}
+  portal:
+    analytics:
+      enabled: true
+      trackingId: ""
+    apikeyHeader: X-Gravitee-Api-Key
+    rating:
+      enabled: true
+    support:
+      enabled: true
+    userCreation:
+      enabled: true
+    cors:
+      allow-origin: '*'
+      max-age: 1728000
+      allow-methods: 'OPTIONS, GET, POST, PUT, DELETE'
+      allow-headers: 'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, If-Match, X-Xsrf-Token'
+      exposed-headers: 'ETag;X-Xsrf-Token'
+  priorityClassName: ""
+  readinessProbe:
+    failureThreshold: 3
+    httpGet:
+      path: /
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 30
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  scheduler:
+    tasks: 10
+  securityContext:
+    runAsGroup: 101
+    runAsNonRoot: true
+    runAsUser: 101
+  service:
+    externalPort: 8002
+    internalPort: 8080
+    internalPortName: http
+    name: nginx
+    type: ClusterIP
+  terminationGracePeriod: 30
+  theme:
+    loader: assets/gravitee_logo_anim.gif
+    logo: themes/assets/GRAVITEE_LOGO1-01.png
+    name: default
+  title: Management UI
+  cors:
+    allow-origin: '*'
+    max-age: 1728000
+    allow-methods: 'OPTIONS, GET, POST, PUT, DELETE'
+    allow-headers: 'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, If-Match, X-Xsrf-Token'
+    exposed-headers: 'ETag;X-Xsrf-Token'
